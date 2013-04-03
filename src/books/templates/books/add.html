@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>stats/books</title>
+    </head>
+    <body>
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url add %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.txt_book.label }}. <em>{{ form.txt_book.help_text }}</em></p>
+            <p>
+                {{ form.txt_book.errors }}
+                {{ form.txt_book }}
+            </p>
+            <p><input type="submit" value="Upload" /></p>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>stats/books</title>
+    </head>
+    <body>
+        <p>
+            <strong>Books</strong>&nbsp;&nbsp;&nbsp;<em><a href="/stats/books/add/">Add</a></em>
+        </p>
+        {% if books %}
+            <ol>
+            {% for b in books %}
+                <li><a href="/stats/books/{{ b.id }}/">{{ b.title }}</a>, {{ b.author }}</li>
+            {% endfor %}
+            </ol>
+        {% else %}
+            <p>
+                <em>Nothing in the database.</em>
+            </p>
+        {% endif %}
+    </body>
+</html>
