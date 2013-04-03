@@ -33,6 +33,9 @@ def process_file(fp):
 
     hist = {}
     for line in fp:
+        if line.startswith('*** END OF THIS PROJECT GUTENBERG EBOOK')
+            break;
+            
         process_line(line, hist)
     
     for key in hist.keys():
