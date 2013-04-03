@@ -46,13 +46,13 @@ def read_gutenberg_headers(fp):
     book = Book()
     for line in fp:
         if line.startswith('Title:'):
-            book.title = line[6:]
+            book.title = line[6:].strip(string.punctuation + string.whitespace)
 
         if line.startswith('Author:'):
-            book.author = line[7:]
+            book.author = line[7:].strip(string.punctuation + string.whitespace)
 
         if line.startswith('Release Date:'):
-            book.published = line[13:]
+            book.published = line[13:].strip(string.punctuation + string.whitespace)
 
         if line.startswith('*** START OF THIS PROJECT GUTENBERG EBOOK'):
             return book
