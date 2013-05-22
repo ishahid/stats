@@ -1,2 +1,21 @@
-src/.project
-src/.pydevproject
+# temporary
+*.tmp
+*.bak
+
+# pycharm specific
+.idea/
+
+# sublimetext specific
+*.sublime-workspace
+
+# windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# executables
+*.pyc
+*.exe
+*.com
+*.out
