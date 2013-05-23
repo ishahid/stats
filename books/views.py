@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from books.forms import BookUploadForm
 from books.models import Book, Word, WordCount
 
@@ -46,8 +47,11 @@ def process_file(fp):
         process_line(line, hist)
     
     for key in hist.keys():
-        word = Word(text=key)
-        word.save()
+        try:
+            word = Word.objects.get(text=key)
+        except ObjectDoesNotExist:
+            word = Word(text=key)
+            word.save()
 
         count = WordCount(book=book, word=word, count=hist[key])
         count.save()
