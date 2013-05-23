@@ -1,31 +1,39 @@
-from django.shortcuts import get_object_or_404, render, render_to_response
+import string
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-import string, random
-
-from books.models import Book, Word, WordCount
+from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from books.forms import BookUploadForm
+from books.models import Book, Word, WordCount
+
 
 def index(request):
     books = Book.objects.order_by('title')
     return render(request, 'books/index.html', {'books': books})
 
+
 def book(request, id):
     book = get_object_or_404(Book, pk=id)
     return render(request, 'books/book.html', {'book': book})
+
 
 def add(request):
     # Handle file upload
     if request.method == 'POST':
         form = BookUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            process_file(request.FILES['txt_book'])
+            try:
+                process_file(request.FILES['txt_book'])
+            except IntegrityError as error:
+                return render(request, 'books/error.html', {'error': error})
 
             # Redirect to the book list after POST
             return HttpResponseRedirect(reverse('books.views.index'))
     else:
-        form = BookUploadForm() # An empty, unbound form
+        form = BookUploadForm()  # An empty, unbound form
         return render(request, 'books/add.html', {'form': form})
+
 
 def process_file(fp):
     book = read_gutenberg_headers(fp)
@@ -39,11 +47,15 @@ def process_file(fp):
         process_line(line, hist)
     
     for key in hist.keys():
-        word = Word(text=key)
-        word.save()
+        try:
+            word = Word.objects.get(text=key)
+        except ObjectDoesNotExist:
+            word = Word(text=key)
+            word.save()
 
         count = WordCount(book=book, word=word, count=hist[key])
         count.save()
+
 
 def read_gutenberg_headers(fp):
     book = Book()

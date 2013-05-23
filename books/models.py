@@ -15,14 +15,23 @@ class Book(models.Model):
     author    = models.CharField('Author', max_length=255)
     published = models.CharField('Published', max_length=255, null=True, blank=True)
     
-    def get_unique_words(self):
-        "Returns list of unique words in this book."
-        return []
+    def get_unique_words_count(self):
+        """Returns count of unique words in this book."""
+        return WordCount.objects.filter(book=self).count()
 
-    def _get_total_words_count(self):
-        "Returns count of total words in this book."
-        return 0
-    total_words = property(_get_total_words_count)
+    def get_total_words_count(self):
+        """Returns count of total words in this book."""
+        list = WordCount.objects.filter(book=self)
+        count = 0
+        for wc in list:
+            count = count + wc.count;
+
+        return count
+
+    def get_top_twenty_words(self):
+        """Returns top twenty words in this book."""
+        list = WordCount.objects.filter(book=self).order_by('-count')[:20]
+        return list
 
     def __unicode__(self):
         return self.title
@@ -35,3 +44,6 @@ class WordCount(models.Model):
     book  = models.ForeignKey(Book, related_name='fk_book')
     word  = models.ForeignKey(Word, related_name='fk_word')
     count = models.IntegerField('Count')
+
+    def __unicode__(self):
+        return self.word.text + ' [' + self.count + ']'
