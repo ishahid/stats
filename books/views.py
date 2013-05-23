@@ -1,7 +1,8 @@
-from django.shortcuts import get_object_or_404, render, render_to_response
+import string
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-import string
+from django.db import IntegrityError
 from books.forms import BookUploadForm
 from books.models import Book, Word, WordCount
 
@@ -21,12 +22,15 @@ def add(request):
     if request.method == 'POST':
         form = BookUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            process_file(request.FILES['txt_book'])
+            try:
+                process_file(request.FILES['txt_book'])
+            except IntegrityError as error:
+                return render(request, 'books/error.html', {'error': error})
 
             # Redirect to the book list after POST
             return HttpResponseRedirect(reverse('books.views.index'))
     else:
-        form = BookUploadForm() # An empty, unbound form
+        form = BookUploadForm()  # An empty, unbound form
         return render(request, 'books/add.html', {'form': form})
 
 
