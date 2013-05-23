@@ -14,8 +14,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'stats',
         # The following settings are not used with sqlite3:
-        'USER': 'root',
-        'PASSWORD': 'imranshahid',
+        'USER': 'stats',
+        'PASSWORD': 'ucYAUhwJdqFybm8c',
         'HOST': 'localhost',
         'PORT': '',
     }
