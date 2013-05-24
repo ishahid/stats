@@ -1,9 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html class=" js no-touch svg inlinesvg svgclippaths no-ie8compat" lang="en">
     <head>
         <title>book stats</title>
+        <meta charset="utf-8">
+        <meta content="width=device-width" name="viewport">
         {% load staticfiles %}
-        <link  href="{% static 'foundation/css/foundation.min.css' %}" rel="stylesheet" type="text/css" media="screen">
+        <link  href="{% static 'foundation/css/normalize.css' %}" rel="stylesheet">
+        <link  href="{% static 'foundation/css/foundation.min.css' %}" rel="stylesheet">
+        <script src="{% static 'foundation/js/vendor/custom.modernizr.js' %}"></script>
         <script src="{% static 'foundation/js/vendor/jquery.js' %}"></script>
+        <script src="{% static 'foundation/js/foundation.min.js' %}"></script>
         <script src="{% static 'foundation/js/vendor/jquery.stickyFooter.js' %}"></script>
     </head>
     <body>
@@ -73,6 +79,9 @@
                 </div>
             </div>
         </footer>
+        <script>
+            $(document).foundation();
+        </script>
         <!-- End Footer -->
     </body>
 </html>
