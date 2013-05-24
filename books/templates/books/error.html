@@ -1,15 +1,65 @@
 <html>
     <head>
-        <title>stats/books</title>
+        <title>book stats</title>
+        {% load staticfiles %}
+        <link  href="{% static 'foundation/css/foundation.min.css' %}" rel="stylesheet" type="text/css" media="screen">
+        <script src="{% static 'foundation/js/vendor/jquery.js' %}"></script>
+        <script src="{% static 'foundation/js/vendor/jquery.stickyFooter.js' %}"></script>
     </head>
     <body>
-        <p>
-            <strong>Error</strong>
-            <br>
-            {{error}}
-        </p>
-        <p>
-            <a href="../">Books</a> / <a href="../add/">Add</a>
-        </p>
+        <!-- Navigation -->
+        <nav class="top-bar">
+            <ul class="title-area">
+                <!-- Title Area -->
+                <li class="name">
+                    <h1>
+                        <a href="/books/">Book Stats</a>
+                    </h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                    <li class="divider"></li>
+                    <li><a href="/books/add/">Add a Book</a></li>
+                    <li class="divider"></li>
+                </ul>
+            </section>
+        </nav>
+        <!-- End Navigation -->
+
+        <!-- Header -->
+        <div class="row">
+            <div class="large-12 columns">
+                <p>
+                    <strong>Error</strong>
+                    <br>
+                    {{error}}
+                </p>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <!-- Footer -->
+        <footer class="row">
+            <div class="large-12 columns"><hr />
+                <div class="row">
+
+                    <div class="large-6 columns">
+                        <p>&copy; 2013 Imran Shahid. All rights reserved.</p>
+                    </div>
+
+                    <div class="large-6 columns">
+                        <ul class="inline-list right">
+                            <li><a href="http://github.com/ishahid/stats">View on GitHub</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+        <!-- End Footer -->
     </body>
 </html>

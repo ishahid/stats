@@ -1,20 +1,91 @@
 <html>
     <head>
-        <title>stats/books</title>
+        <title>book stats</title>
+        {% load staticfiles %}
+        <link  href="{% static 'foundation/css/foundation.min.css' %}" rel="stylesheet" type="text/css" media="screen">
+        <script src="{% static 'foundation/js/vendor/jquery.js' %}"></script>
+        <script src="{% static 'foundation/js/vendor/jquery.stickyFooter.js' %}"></script>
     </head>
     <body>
-        <p>
-            Book: {{ book.title }}<br>
-            Author: {{ book.author }}<br>
-            Published: {{ book.published }}
-        </p>
-        <p>
-            Number of unique words: <em>{{ book.get_unique_words_count }}</em><br>
-            Number of total words: <em>{{ book.get_total_words_count }}</em><br>
-            Top twenty words:
-            {% for wc in book.get_top_twenty_words %}
-                &lt;{{wc.word.text}}: {{wc.count}}&gt;,
-            {% endfor %}
-        </p>
+        <!-- Navigation -->
+        <nav class="top-bar">
+            <ul class="title-area">
+                <!-- Title Area -->
+                <li class="name">
+                    <h1>
+                        <a href="/books/">Book Stats</a>
+                    </h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                    <li class="divider"></li>
+                    <li><a href="/books/add/">Add a Book</a></li>
+                    <li class="divider"></li>
+                </ul>
+            </section>
+        </nav>
+        <!-- End Navigation -->
+
+        <!-- Header -->
+        <div class="row">
+            <div class="large-12 columns">
+                <p>
+                    Book: {{ book.title }}<br>
+                    Author: {{ book.author }}<br>
+                    Published: {{ book.published }}
+                </p>
+                <p>
+                    Number of unique words: <em>{{ book.get_unique_words_count }}</em><br>
+                    Number of total words: <em>{{ book.get_total_words_count }}</em><br>
+                    Top twenty words:
+                    {% for wc in book.get_top_twenty_words %}
+                        &lt;{{wc.word.text}}: {{wc.count}}&gt;,
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="panel">
+                    <div class="row">
+
+                        <div class="large-6 columns">
+                            <img src="http://placehold.it/600x500&text=Thumbnail">
+                        </div>
+
+                        <div class="large-6 columns">
+                            <img src="http://placehold.it/600x500&text=Thumbnail">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row">
+            <div class="large-12 columns"><hr />
+                <div class="row">
+
+                    <div class="large-6 columns">
+                        <p>&copy; 2013 Imran Shahid. All rights reserved.</p>
+                    </div>
+
+                    <div class="large-6 columns">
+                        <ul class="inline-list right">
+                            <li><a href="http://github.com/ishahid/stats">View on GitHub</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+        <!-- End Footer -->
     </body>
 </html>
