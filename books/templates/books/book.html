@@ -45,8 +45,8 @@
                     Published: {{ book.published }}
                 </p>
                 <p>
-                    Number of unique words: <em>{{ book.get_unique_words_count }}</em><br>
-                    Number of total words: <em>{{ book.get_total_words_count }}</em><br>
+                    Number of unique words: <em>{{ book.get_unique_words }}</em><br>
+                    Number of total words: <em>{{ book.get_total_words }}</em><br>
                     Top twenty words:
                     {% for wc in book.get_top_twenty_words %}
                         &lt;{{ wc.word.text }}: {{ wc.count }}&gt;,

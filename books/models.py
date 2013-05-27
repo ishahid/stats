@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 
 
 class Word(models.Model):
@@ -17,18 +18,14 @@ class Book(models.Model):
     author = models.CharField('Author', max_length=255)
     published = models.CharField('Published', max_length=255, null=True, blank=True)
     
-    def get_unique_words_count(self):
+    def get_unique_words(self):
         """Returns count of unique words in this book."""
         return WordCount.objects.filter(book=self).count()
 
-    def get_total_words_count(self):
+    def get_total_words(self):
         """Returns count of total words in this book."""
-        list = WordCount.objects.filter(book=self)
-        count = 0
-        for wc in list:
-            count = count + wc.count;
-
-        return count
+        aggregate = WordCount.objects.filter(book=self).aggregate(Sum('count'))
+        return aggregate['count__sum']
 
     def get_top_twenty_words(self):
         """Returns top twenty words in this book."""
