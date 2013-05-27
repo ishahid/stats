@@ -1,6 +1,7 @@
-import string
+import string, math
 from django.core.exceptions import ObjectDoesNotExist
 from books.models import Book, Word, WordCount
+from django.utils.safestring import mark_safe
 
 
 def process_book(fp):
@@ -53,3 +54,33 @@ def process_line(line, hist):
         # update the histogram
         if len(word) > 0:
             hist[word] = hist.get(word, 0) + 1
+
+
+def get_word_cloud(list):
+    hist = {}
+    for wc in list:
+        hist[wc.word.text] = wc.count
+
+    f_max = 64
+    t_min = hist[min(hist, key=hist.get)]
+    t_max = hist[max(hist, key=hist.get)]
+
+    cloud = ''
+    for word in sorted(hist.keys()):
+        freq = hist[word]
+        t_i = freq
+        if t_i > t_min:
+            s_i = (f_max*(t_i-t_min))/(t_max-t_min)
+            s_i = int(math.fabs(s_i))
+            if s_i == 0:
+                s_i = 1
+            else:
+                s_i = math.log10(s_i)
+        else:
+            s_i = 1
+
+        s_i = int(s_i * 40)
+
+        cloud = cloud + '<span style="font-family:Garamond; font-size:' + str(s_i) + 'px;">' + word + '</span>&nbsp; &nbsp;'
+
+    return mark_safe(cloud)
