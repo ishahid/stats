@@ -81,6 +81,6 @@ def get_word_cloud(list):
 
         s_i = int(s_i * 40)
 
-        cloud = cloud + '<span style="font-family:Garamond; font-size:' + str(s_i) + 'px;">' + word + '</span>&nbsp; &nbsp;'
+        cloud = cloud + '<span style="font-family:Garamond; font-size:' + str(s_i) + 'px;">' + word + '</span> '
 
     return mark_safe(cloud)
