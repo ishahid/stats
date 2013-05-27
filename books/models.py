@@ -1,18 +1,20 @@
 from django.db import models
 
+
 class Word(models.Model):
-    text  = models.CharField('Text', max_length=100, unique=True)
-    
-    def __unicode__(self):
-        return self.text
+    text = models.CharField('Text', max_length=100, unique=True)
     
     class Meta:
-        verbose_name        = 'word'
+        verbose_name = 'word'
         verbose_name_plural = 'words'
 
+    def __unicode__(self):
+        return self.text
+
+
 class Book(models.Model):
-    title     = models.CharField('Title', max_length=255, unique=True)
-    author    = models.CharField('Author', max_length=255)
+    title = models.CharField('Title', max_length=255, unique=True)
+    author = models.CharField('Author', max_length=255)
     published = models.CharField('Published', max_length=255, null=True, blank=True)
     
     def get_unique_words_count(self):
@@ -33,12 +35,13 @@ class Book(models.Model):
         list = WordCount.objects.filter(book=self).order_by('-count')[:20]
         return list
 
-    def __unicode__(self):
-        return self.title
-    
     class Meta:
         verbose_name        = 'book'
         verbose_name_plural = 'books'
+
+    def __unicode__(self):
+        return self.title
+
 
 class WordCount(models.Model):
     book  = models.ForeignKey(Book, related_name='fk_book')
@@ -46,4 +49,4 @@ class WordCount(models.Model):
     count = models.IntegerField('Count')
 
     def __unicode__(self):
-        return self.word.text + ' [' + self.count + ']'
+        return self.book + '/' + self.word + '/' + self.count
