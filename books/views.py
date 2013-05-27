@@ -1,11 +1,10 @@
-import string
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
 from books.forms import BookUploadForm
-from books.models import Book, Word, WordCount
+from books.models import Book
+from utils import process_book, get_word_cloud
 
 
 def index(request):
@@ -15,7 +14,10 @@ def index(request):
 
 def book(request, id):
     book = get_object_or_404(Book, pk=id)
-    return render(request, 'books/book.html', {'book': book})
+    percentage_u = float(book.get_unique_words()) / book.get_total_words() * 100
+    percentage_t = 100 - percentage_u
+    cloud = get_word_cloud(book.get_most_common_words(100))
+    return render(request, 'books/book.html', {'book': book, 'cloud': cloud, 'percentage_u': percentage_u, 'percentage_t': percentage_t})
 
 
 def add(request):
@@ -24,7 +26,7 @@ def add(request):
         form = BookUploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                process_file(request.FILES['txt_book'])
+                process_book(request.FILES['txt_book'])
             except IntegrityError as error:
                 return render(request, 'books/error.html', {'error': error})
 
@@ -35,53 +37,3 @@ def add(request):
         return render(request, 'books/add.html', {'form': form})
 
 
-def process_file(fp):
-    book = read_gutenberg_headers(fp)
-    book.save()
-
-    hist = {}
-    for line in fp:
-        if line.startswith('*** END OF THIS PROJECT GUTENBERG EBOOK'):
-            break;
-            
-        process_line(line, hist)
-    
-    for key in hist.keys():
-        try:
-            word = Word.objects.get(text=key)
-        except ObjectDoesNotExist:
-            word = Word(text=key)
-            word.save()
-
-        count = WordCount(book=book, word=word, count=hist[key])
-        count.save()
-
-
-def read_gutenberg_headers(fp):
-    book = Book()
-    for line in fp:
-        if line.startswith('Title:'):
-            book.title = line[6:].strip(string.punctuation + string.whitespace)
-
-        if line.startswith('Author:'):
-            book.author = line[7:].strip(string.punctuation + string.whitespace)
-
-        if line.startswith('Release Date:'):
-            book.published = line[13:].strip(string.punctuation + string.whitespace)
-
-        if line.startswith('*** START OF THIS PROJECT GUTENBERG EBOOK'):
-            return book
-
-
-def process_line(line, hist):
-    # replace hyphens with spaces before splitting
-    line = line.replace('-', ' ')
-    
-    for word in line.split():
-        # remove punctuation and convert to lowercase
-        word = word.strip(string.punctuation + string.whitespace)
-        word = word.lower()
-
-        # update the histogram
-        if len(word) > 0:
-            hist[word] = hist.get(word, 0) + 1
