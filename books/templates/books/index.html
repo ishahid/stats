@@ -1,87 +1,139 @@
 <!DOCTYPE html>
-<html class=" js no-touch svg inlinesvg svgclippaths no-ie8compat" lang="en">
+<html lang="en">
     <head>
-        <title>book stats</title>
+        <title>Book Stats</title>
         <meta charset="utf-8">
-        <meta content="width=device-width" name="viewport">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% load staticfiles %}
-        <link  href="{% static 'foundation/css/normalize.css' %}" rel="stylesheet">
-        <link  href="{% static 'foundation/css/foundation.min.css' %}" rel="stylesheet">
-        <script src="{% static 'foundation/js/vendor/custom.modernizr.js' %}"></script>
-        <script src="{% static 'foundation/js/vendor/jquery.js' %}"></script>
-        <script src="{% static 'foundation/js/foundation.min.js' %}"></script>
-        <script src="{% static 'foundation/js/vendor/jquery.stickyFooter.js' %}"></script>
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <style type="text/css">
+            /* Sticky footer styles
+            -------------------------------------------------- */
+            html,
+            body {
+            height: 100%;
+            /* The html and body elements cannot have any padding or margin. */
+            }
+
+            /* Wrapper for page content to push down footer */
+            #wrap {
+                min-height: 100%;
+                height: auto !important;
+                height: 100%;
+                /* Negative indent footer by it's height */
+                margin: 0 auto -60px;
+            }
+
+            /* Set the fixed height of the footer here */
+            #push,
+            #footer {
+                height: 60px;
+            }
+            #footer {
+                background-color: #f5f5f5;
+            }
+
+            /* Lastly, apply responsive CSS fixes as necessary */
+            @media (max-width: 767px) {
+                #footer {
+                    margin-left: -20px;
+                    margin-right: -20px;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+            }
+
+            /* Custom page CSS
+            -------------------------------------------------- */
+            /* Not required for template or sticky footer method. */
+            #wrap > .container {
+                padding-top: 50px;
+            }
+
+            .container .credit {
+                margin: 20px 0;
+            }
+        </style>
+        <link href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
     </head>
     <body>
-        <!-- Navigation -->
-        <nav class="top-bar">
-            <ul class="title-area">
-                <!-- Title Area -->
-                <li class="name">
-                    <h1>
-                        <a href="/books/">Book Stats</a>
-                    </h1>
-                </li>
-                <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-            </ul>
+        <!-- Wrapper -->
+        <div id="wrap">
 
-            <section class="top-bar-section">
-                <!-- Right Nav Section -->
-                <ul class="right">
-                    <li class="divider"></li>
-                    <li><a href="/books/add/">Add a Book</a></li>
-                    <li class="divider"></li>
-                </ul>
-            </section>
-        </nav>
-        <!-- End Navigation -->
-
-        <!-- Header -->
-        <div class="row">
-            <div class="large-12 columns">
-                <table class="large-12 display" id="book_list">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for b in books %}
-                        <tr>
-                            <td><a href="/books/{{ b.id }}/">{{ b.title }}</a></td>
-                            <td>{{ b.author }}</td>
-                            <td>{{ b.published }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!-- End Header -->
-
-        <!-- Footer -->
-        <footer class="row">
-            <div class="large-12 columns"><hr />
-                <div class="row">
-
-                    <div class="large-6 columns">
-                        <p>&copy; 2013 Imran Shahid. All rights reserved.</p>
+            <!-- Navigation -->
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="brand" href="/books/">Book Stats</a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right">
+                                <li><a href="/books/add/">Add a Book</a></li>
+                            </ul>
+                        </div><!--/.nav-collapse -->
                     </div>
-
-                    <div class="large-6 columns">
-                        <ul class="inline-list right">
-                            <li><a href="http://github.com/ishahid/stats">View on GitHub</a></li>
-                        </ul>
-                    </div>
-
                 </div>
             </div>
-        </footer>
-        <script>
-            $(document).foundation();
-        </script>
+            <!-- End Navigation -->
+
+            <!-- Container -->
+            <div class="container">
+
+                <div class="page-header">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for b in books %}
+                            <tr>
+                                <td><a href="/books/{{ b.id }}/">{{ b.title }}</a></td>
+                                <td>{{ b.author }}</td>
+                                <td>{{ b.published }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!-- End Container -->
+
+            <div id="push"></div>
+        </div>
+        <!-- End Wrapper -->
+
+        <!-- Footer -->
+        <div id="footer">
+            <div class="container">
+                <div class="row hidden-phone">
+                    <div class="span8">
+                        <p class="muted credit">&copy; 2013 Imran Shahid. All rights reserved.</p>
+                    </div>
+                    <div class="span4">
+                        <p class="muted credit text-right"><a href="http://github.com/ishahid/stats">View on GitHub</a></p>
+                    </div>
+                </div>
+                <div class="row visible-phone">
+                    <div class="span12">
+                        <p class="muted credit">&copy; 2013 Imran Shahid. All rights reserved. <a href="http://github.com/ishahid/stats">View on GitHub</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End Footer -->
+
+        <!-- Javascript -->
+        <script src="{% static 'jquery/jquery-2.0.1.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <!-- End Javascript -->
     </body>
 </html>
