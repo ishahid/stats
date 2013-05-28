@@ -84,6 +84,7 @@
             <div class="container">
 
                 <div class="page-header">
+                    {% if books %}
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -102,6 +103,9 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    {% else %}
+                    <p class="text-info">Nothing found in the database.</p>
+                    {% endif %}
                 </div>
 
             </div>
