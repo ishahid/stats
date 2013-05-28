@@ -17,15 +17,29 @@
                         <div class="row">&nbsp;</div>
 
                         <div class="row">
-                            <table class="table" width="100%">
-                                <caption>Unique vs Total Words</caption>
-                                <tr>
-                                    <td width="{{ percentage_u }}%" style="color: #ffffff; background-color: tomato"><em>{{ book.get_unique_words }}</em></td>
-                                    <td width="{{ percentage_t }}%" style="color: #ffffff; background-color: midnightblue"><em>{{ book.get_total_words }}</em></td>
-                                </tr>
-                            </table>
+                            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                            <script type="text/javascript">
+                                google.load("visualization", "1", {packages:["corechart"]});
+                                google.setOnLoadCallback(drawChart);
+                                function drawChart() {
+                                    var data = google.visualization.arrayToDataTable([
+                                        ['', 'Unique', 'Total'],
+                                        ['', {{ book.get_unique_words }}, {{ book.get_total_words }}]
+                                    ]);
+
+                                    var options = {
+                                        title: 'Unique vs Total Words',
+                                        vAxis: {title: ''}
+                                    };
+
+                                    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                                    chart.draw(data, options);
+                                }
+                            </script>
+                            <div id="chart_div" style="height: 150px;"></div>
                         </div>
 
+                        <div class="row">&nbsp;</div>
                         <div class="row">&nbsp;</div>
 
                         <div class="row">{{ cloud }}</div>
