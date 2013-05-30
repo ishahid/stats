@@ -38,9 +38,29 @@
 
                                     var barChart = new google.visualization.BarChart(document.getElementById('barchart_div'));
                                     barChart.draw(data, options);
+
+                                    var data = google.visualization.arrayToDataTable([
+                                        ['Bin', 'Words'],
+                                        {% for key, value in book.get_word_histogram %}
+                                        ['{{ key }}',  {{ value }}],
+                                        {% endfor %}
+                                    ]);
+
+                                    var options = {
+                                        'title': 'Word Histogram',
+                                        'legend':'none',
+                                        'chartArea':{left:50, top:20, width:"100%", height:"150px"},
+                                        'vAxis':{logScale:true},
+                                        'hAxis':{textPosition:'none'}
+                                    };
+
+                                    var colChart = new google.visualization.ColumnChart(document.getElementById('colchart_div'));
+                                    colChart.draw(data, options);
                                 }
                             </script>
                             <div id="barchart_div"></div>
+                            <div class="row">&nbsp;</div>
+                            <div id="colchart_div"></div>
                         </div>
 
                         <div class="row">&nbsp;</div>

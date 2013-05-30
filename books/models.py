@@ -34,6 +34,33 @@ class Book(models.Model):
         list = WordCount.objects.filter(book=self).order_by('-count')[:n]
         return list
 
+    def get_word_histogram(self):
+        """Returns histogram of the words from this book."""
+        words = WordCount.objects.filter(book=self)
+
+        n = words.count()
+        k = int(math.floor(math.sqrt(n)));
+        h = int(math.floor(n/k));
+        hist = {}
+        for i in range(0, k, 1):
+            hist[h*i] = 0
+
+        bins = hist.keys()
+        bins.sort()
+
+        for w in words:
+            for bin in bins:
+                if w.count < bin:
+                    hist[bin] = hist[bin] + 1
+                    break
+
+        c_hist = {}
+        for key in hist.keys():
+            if hist[key] != 0:
+                c_hist[key] = hist[key]
+
+        return sorted(c_hist.iteritems())
+
     def get_word_cloud(self):
         """Returns word cloud from this book based upon the algorithm defined at wikipedia."""
         """http://en.wikipedia.org/wiki/Tag_cloud"""
@@ -90,6 +117,3 @@ class WordCount(models.Model):
     book = models.ForeignKey(Book, related_name='fk_book')
     word = models.ForeignKey(Word, related_name='fk_word')
     count = models.IntegerField('Count')
-
-    def __unicode__(self):
-        return self.book + '/' + self.word + '/' + self.count
