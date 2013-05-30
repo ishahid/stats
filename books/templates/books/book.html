@@ -21,25 +21,26 @@
                             <script type="text/javascript">
                                 google.load("visualization", "1", {packages:["corechart"]});
                                 google.setOnLoadCallback(drawChart);
+
                                 function drawChart() {
                                     var data = google.visualization.arrayToDataTable([
-                                        ['', 'Unique', 'Total'],
+                                        ['', 'Unique Words', 'Total Words'],
                                         ['', {{ book.get_unique_words }}, {{ book.get_total_words }}]
                                     ]);
 
                                     var options = {
-                                        title: 'Unique vs Total Words',
-                                        vAxis: {title: ''},
-                                        'width':'100%',
-                                        'height':'150px',
-                                        'legend':'none'
+                                        'title': 'Unique vs Total Words',
+                                        'legend':'none',
+                                        'chartArea':{left:0, top:20, width:"100%", height:"150px"},
+                                        'colors':['#dc3912', '#3366cc'],
+                                        'hAxis':{logScale:false}
                                     };
 
-                                    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-                                    chart.draw(data, options);
+                                    var barChart = new google.visualization.BarChart(document.getElementById('barchart_div'));
+                                    barChart.draw(data, options);
                                 }
                             </script>
-                            <div id="chart_div" style="width:700px; height:150px;"></div>
+                            <div id="barchart_div"></div>
                         </div>
 
                         <div class="row">&nbsp;</div>
