@@ -1,12 +1,16 @@
 from django.db import models
 from django.db.models import Sum
-from django.utils.safestring import mark_safe
 import math
 
 
 class Word(models.Model):
     text = models.CharField('Text', max_length=100, unique=True)
-    
+
+    def get_word_frequency_in_books(self):
+        """Returns frequency of the word from all books."""
+        list = WordCount.objects.filter(word=self)
+        return list
+
     class Meta:
         verbose_name = 'word'
         verbose_name_plural = 'words'
@@ -76,9 +80,11 @@ class Book(models.Model):
         """http://en.wikipedia.org/wiki/Tag_cloud"""
 
         hist = {}
+        ids = {}
         list = self.get_most_common_words(100)
         for wc in list:
             hist[wc.word.text] = wc.count
+            ids[wc.word.text] = wc.word.id
 
         f_max = 60
         t_min = hist[min(hist, key=hist.get)]
@@ -100,7 +106,7 @@ class Book(models.Model):
 
             s_i = int(s_i * 25)
 
-            cloud[word] = [freq, s_i]
+            cloud[word] = [ids[word], freq, s_i]
 
         return sorted(cloud.iteritems())
 

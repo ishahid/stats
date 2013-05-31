@@ -1,0 +1,52 @@
+{% include 'books/header.html' %}
+{% include 'books/nav.html' %}
+
+            <!-- Container -->
+            <div class="container">
+
+                <div class="row">
+                    <div class="span1"></div>
+                    <div class="span10">
+                        <div class="row">
+                            <span class="lead">
+                                The word <em>'{{ word.text }}'</em>
+                            </span>
+                        </div>
+
+                        <div class="row">&nbsp;</div>
+
+                        <div class="row">
+                            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                            <script type="text/javascript">
+                                google.load("visualization", "1", {packages:["corechart"]});
+                                google.setOnLoadCallback(drawChart);
+
+                                function drawChart() {
+                                    var data = google.visualization.arrayToDataTable([
+                                        ['Book', 'Word Frequency'],
+                                        {% for item in word.get_word_frequency_in_books %}
+                                            ['{{ item.book.title }}',  {{ item.count }}],
+                                        {% endfor %}
+                                    ]);
+
+                                    var options = {
+                                        'title': 'Word frequencies per Book',
+                                        'legend':'none',
+                                        'chartArea':{left:0, top:20, width:"100%", height:"500px"},
+                                        'hAxis':{logScale:false}
+                                    };
+
+                                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                    chart.draw(data, options);
+                                }
+                            </script>
+                            <div id="chart_div" style="height:500px;"></div>
+                        </div>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+
+            </div>
+            <!-- End Container -->
+
+{% include 'books/footer.html' %}
