@@ -42,7 +42,7 @@
                                     var data = google.visualization.arrayToDataTable([
                                         ['Bin', 'Words'],
                                         {% for key, value in book.get_word_histogram %}
-                                        ['{{ key }}',  {{ value }}],
+                                            ['{{ key }}',  {{ value }}],
                                         {% endfor %}
                                     ]);
 
@@ -66,7 +66,11 @@
                         <div class="row">&nbsp;</div>
                         <div class="row">&nbsp;</div>
 
-                        <div class="row">{{ book.get_word_cloud }}</div>
+                        <div class="row">
+                            {% for key, value in book.get_word_cloud %}
+                                <span style="font-size: {{ value.1 }}pt;" title="{{ value.0 }} Occurrences">{{ key }}</span>
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="span1"></div>
                 </div>
