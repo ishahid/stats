@@ -84,7 +84,7 @@ class Book(models.Model):
         t_min = hist[min(hist, key=hist.get)]
         t_max = hist[max(hist, key=hist.get)]
 
-        cloud = ''
+        cloud = {}
         for word in sorted(hist.keys()):
             freq = hist[word]
             t_i = freq
@@ -100,10 +100,9 @@ class Book(models.Model):
 
             s_i = int(s_i * 25)
 
-            cloud = cloud + '<span style="font-size:' + str(s_i) + 'pt;" title="' + str(freq) + ' Occurrences' + '">' + word + '</span>'
-            cloud += ' '
+            cloud[word] = [freq, s_i]
 
-        return mark_safe(cloud)
+        return sorted(cloud.iteritems())
 
     class Meta:
         verbose_name = 'book'
