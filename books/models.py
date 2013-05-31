@@ -31,7 +31,18 @@ class Book(models.Model):
 
     def get_most_common_words(self, n=50):
         """Returns N most common words in this book."""
-        list = WordCount.objects.filter(book=self).order_by('-count')[:n]
+
+        exclude_list = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i', 'it', 'for', 'not', 'on',
+                        'with', 'he', 'as', 'you', 'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they', 'we',
+                        'say', 'her', 'she', 'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'did'
+                        'what', 'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me', 'when', 'make',
+                        'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take', 'people', 'into', 'year', 'your',
+                        'good', 'some', 'could', 'them','see', 'other', 'than', 'then', 'now', 'look', 'only', 'come',
+                        'its', 'over', 'think', 'also', 'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first',
+                        'well', 'way', 'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us'
+                        'was', 'were']
+
+        list = WordCount.objects.filter(book=self).exclude(word__text__in=exclude_list).order_by('-count')[:n]
         return list
 
     def get_word_histogram(self):
@@ -64,16 +75,6 @@ class Book(models.Model):
     def get_word_cloud(self):
         """Returns word cloud from this book based upon the algorithm defined at wikipedia."""
         """http://en.wikipedia.org/wiki/Tag_cloud"""
-
-        excludes = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i', 'it', 'for', 'not', 'on',
-                    'with', 'he', 'as', 'you', 'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they', 'we',
-                    'say', 'her', 'she', 'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'did'
-                    'what', 'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me', 'when', 'make',
-                    'can', 'like', 'time', 'no', 'just', 'him', 'know', 'take', 'people', 'into', 'year', 'your',
-                    'good', 'some', 'could', 'them','see', 'other', 'than', 'then', 'now', 'look', 'only', 'come',
-                    'its', 'over', 'think', 'also', 'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first',
-                    'well', 'way', 'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day', 'most', 'us'
-                    'was', 'were']
 
         hist = {}
         list = self.get_most_common_words(100)
