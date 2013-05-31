@@ -3,7 +3,7 @@
 
             <!-- Container -->
             <div class="container">
-
+                {% load humanize %}
                 <div class="page-header">
                     {% if books %}
                     <table class="table table-striped">
@@ -11,7 +11,9 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Author</th>
-                                <th>Year</th>
+                                <th><span class="pull-right">Year</span></th>
+                                <th><span class="pull-right">Total Words</span></th>
+                                <th><span class="pull-right">Unique Words</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -19,7 +21,9 @@
                             <tr>
                                 <td><a href="/books/{{ b.id }}/">{{ b.title }}</a></td>
                                 <td>{{ b.author }}</td>
-                                <td>{{ b.published }}</td>
+                                <td><span class="pull-right">{{ b.published }}</span></td>
+                                <td><span class="pull-right">{{ b.get_total_words|intcomma }}</span></td>
+                                <td><span class="pull-right">{{ b.get_unique_words|intcomma }}</span></td>
                             </tr>
                             {% endfor %}
                         </tbody>
