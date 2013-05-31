@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from books.forms import BookUploadForm
-from books.models import Book
+from books.models import Book, Word
 from utils import process_book
 
 
@@ -34,3 +34,6 @@ def add(request):
         return render(request, 'books/add.html', {'form': form})
 
 
+def word(request, id):
+    word = get_object_or_404(Word, pk=id)
+    return render(request, 'books/word.html', {'word': word})

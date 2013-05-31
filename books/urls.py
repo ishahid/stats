@@ -8,4 +8,6 @@ urlpatterns = patterns('',
     url(r'^(?P<id>\d+)/$', views.book, name='book'),
     # ex: /books/add/
     url(r'^add/', views.add, name='add'),
+    # ex: /books/word/123/
+    url(r'^word/(?P<id>\d+)/$', views.word, name='word'),
 )
