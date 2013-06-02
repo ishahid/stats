@@ -32,11 +32,11 @@
                                     var options = {
                                         'title': 'Word frequencies per Book',
                                         'legend':'none',
-                                        'chartArea':{left:0, top:20, width:"100%", height:"500px"},
+                                        'chartArea':{left:50, top:20, width:"100%", height:"500px"},
                                         'hAxis':{logScale:false}
                                     };
 
-                                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                                     chart.draw(data, options);
                                 }
                             </script>
