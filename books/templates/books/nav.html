@@ -10,10 +10,12 @@
                         <a class="brand" href="/books/">Book Stats</a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right">
-                                <li><a href="/books/add/">Add a Book</a></li>
+                                <li><a href="#bookAddModal" role="button" data-toggle="modal">Add a Book</a></li>
                             </ul>
                         </div><!--/.nav-collapse -->
                     </div>
                 </div>
             </div>
             <!-- End Navigation -->
+
+{% include 'books/add.html' %}

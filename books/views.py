@@ -8,13 +8,15 @@ from utils import process_book
 
 
 def index(request):
+    form = BookUploadForm()
     books = Book.objects.order_by('title')
-    return render(request, 'books/index.html', {'books': books})
+    return render(request, 'books/index.html', {'books': books, 'form': form})
 
 
 def book(request, id):
+    form = BookUploadForm()
     book = get_object_or_404(Book, pk=id)
-    return render(request, 'books/book.html', {'book': book})
+    return render(request, 'books/book.html', {'book': book, 'form': form})
 
 
 def add(request):
@@ -35,5 +37,6 @@ def add(request):
 
 
 def word(request, id):
+    form = BookUploadForm()
     word = get_object_or_404(Word, pk=id)
-    return render(request, 'books/word.html', {'word': word})
+    return render(request, 'books/word.html', {'word': word, 'form': form})
