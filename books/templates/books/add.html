@@ -5,27 +5,20 @@
                     <h3 id="myModalLabel">Add a Book</h3>
                 </div>
                 <div class="modal-body">
-                    <!-- Upload form. Note enctype attribute! -->
-                    <form action="{% url 'add' %}" method="post" enctype="multipart/form-data">
+                    <form action="{% url 'add' %}" method="post" enctype="multipart/form-data" class="form-horizontal" data-async data-target="#response" id="uploadForm">
                         <fieldset>
                             {% csrf_token %}
-                            <label>{{ form.txt_book.label }}</label>
+                            <label><strong>{{ form.txt_book.label }}</strong></label>
                             {{ form.txt_book }}
                             <span class="help-block"><em>{{ form.txt_book.help_text }}</em></span>
-                            <span class="text-error">{{ form.txt_book.errors }}</span>
-                            <span class="text-error">{{ form.non_field_errors }}</span>
+                            <br>
+                            <div id="response">&nbsp;</div>
                         </fieldset>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                    <button class="btn btn-primary" onclick="return upload();">Upload</button>
+                    <button class="btn btn-primary" type="submit" form="uploadForm">Upload</button>
                 </div>
-                <script>
-                    function upload() {
-                        alert('testing upload from modal...');
-                        return false;
-                    }
-                </script>
             </div>
             <!-- End Modal -->

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from books.forms import BookUploadForm
@@ -30,10 +30,12 @@ def add(request):
                 return render(request, 'books/error.html', {'error': error})
 
             # Redirect to the book list after POST
-            return HttpResponseRedirect(reverse('books.views.index'))
+            # return HttpResponseRedirect(reverse('books.views.index'))
+            return HttpResponse('<span class="text-success">Success</span>')
+        else:
+            return HttpResponse('<span class="text-error">Error</span>')
     else:
-        form = BookUploadForm()  # An empty, unbound form
-        return render(request, 'books/add.html', {'form': form})
+        return HttpResponse('Invalid call method to \'add\'.')
 
 
 def word(request, id):

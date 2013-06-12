@@ -39,6 +39,26 @@
         {% load staticfiles %}
         <script src="{% static 'jquery/jquery-2.0.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <script>
+            jQuery(function($) {
+                $('form[data-async]').on('submit', function(event) {
+                    var $form = $(this);
+                    var $target = $($form.attr('data-target'));
+
+                    $.ajax({
+                        type: $form.attr('method'),
+                        url: $form.attr('action'),
+                        data: $form.serialize(),
+
+                        success: function(data, status) {
+                            $target.html(data);
+                        }
+                    });
+
+                    event.preventDefault();
+                });
+            });
+        </script>
         <!-- End Javascript -->
     </body>
 </html>
