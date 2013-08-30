@@ -5,8 +5,11 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="span2"></div>
-                    <div class="span8">
+                    <div class="col-md-12">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
                         <!-- Upload form. Note enctype attribute! -->
                         <form action="{% url 'add' %}" method="post" enctype="multipart/form-data">
                             <fieldset>
@@ -16,11 +19,11 @@
                                 <span class="help-block"><em>{{ form.txt_book.help_text }}</em></span>
                                 <span class="text-error">{{ form.txt_book.errors }}</span>
                                 <span class="text-error">{{ form.non_field_errors }}</span>
-                                <button type="submit" class="btn">Upload</button>
+                                <button type="submit" class="btn btn-primary">Upload</button>
                             </fieldset>
                         </form>
                     </div>
-                    <div class="span2"></div>
+                    <div class="col-md-2"></div>
                 </div>
 
             </div>
